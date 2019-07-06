@@ -209,7 +209,7 @@ class SortableFlatList extends Component {
 
 
   getSpacerIndex = (move, activeRow) => {
-    const { horizontal } = this.props
+    const { horizontal, disableTo } = this.props
     if (activeRow === -1 || !this._measurements[activeRow]) return -1
     // Find the row that contains the midpoint of the hovering item
     const hoverItemSize = this._measurements[activeRow][horizontal ? 'width' : 'height']
@@ -223,6 +223,10 @@ class SortableFlatList extends Component {
         const itemSize = horizontal ? width : height
         return hoverPoint > itemOffset && hoverPoint < (itemOffset + itemSize)
       })
+    }
+    if (disableTo >= 0 && spacerIndex <= disableTo) {
+      // Spacer index differs according to placement. See note in onPanResponderRelease
+      return activeRow;
     }
     // Spacer index differs according to placement. See note in onPanResponderRelease
     return spacerIndex > activeRow ? spacerIndex + 1 : spacerIndex
