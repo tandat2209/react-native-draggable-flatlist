@@ -11,7 +11,6 @@ import {
   StatusBar,
   StyleSheet,
 } from 'react-native'
-import { KeyboardAwareFlatList } from "react-native-keyboard-aware-scroll-view"
 
 // Measure function triggers false positives
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated'])
@@ -354,14 +353,15 @@ class SortableFlatList extends Component {
   }
 
   render() {
-    const { horizontal, keyExtractor, contentContainerStyle } = this.props
+    const { horizontal, keyExtractor, contentContainerStyle, ListFooterComponent, ListWrapper } = this.props
+    const List = ListWrapper || FlatList
     return (
       <View
         ref={this.measureContainer}
         {...this._panResponder.panHandlers}
         style={styles.wrapper} // Setting { opacity: 1 } fixes Android measurement bug: https://github.com/facebook/react-native/issues/18034#issuecomment-368417691
       >
-        <KeyboardAwareFlatList
+        <List
           {...this.props}
           scrollEnabled={this.state.activeRow === -1}
           ref={ref => this._flatList = ref}
@@ -370,7 +370,7 @@ class SortableFlatList extends Component {
           keyExtractor={keyExtractor || this.keyExtractor}
           onScroll={({ nativeEvent }) => this._scrollOffset = nativeEvent.contentOffset[horizontal ? 'x' : 'y']}
           scrollEventThrottle={16}
-          ListFooterComponent={contentContainerStyle && <View style={contentContainerStyle} />}
+          ListFooterComponent={ListFooterComponent}
         />
         {this.renderHoverComponent()}
       </View>
