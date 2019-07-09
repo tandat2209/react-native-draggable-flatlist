@@ -5,7 +5,6 @@
 ## Install
 
 1. `npm install react-native-draggable-flatlist` or `yarn add react-native-draggable-flatlist`
-2. `npm install react-native-keyboard-aware-scroll-view` or `yarn add react-native-keyboard-aware-scroll-view`
 2. `import DraggableFlatList from 'react-native-draggable-flatlist'`  
 
 ## Api
